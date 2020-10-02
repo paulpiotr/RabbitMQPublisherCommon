@@ -70,7 +70,7 @@ namespace RabbitMQPublisherCommon
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 #if !NET48
                 _log4net.Error(string.Format("{0}, {1}.", e.Message, e.StackTrace), e);
