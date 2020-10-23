@@ -34,7 +34,7 @@ namespace RabbitMQPublisherCommon
             try
             {
 #if !NET48
-                log4net.Info($"{ queueName }, { message }");
+                log4net.Debug($"{ queueName }, { message }");
 #endif
                 IConnectionFactory rabbitConnectionFactory = new ConnectionFactory()
                 {
@@ -65,7 +65,7 @@ namespace RabbitMQPublisherCommon
                             basicProperties: null,
                             body);
 #if !NET48
-                        log4net.Info($"Sent { queueName }, { message }");
+                        log4net.Debug($"Sent { queueName }, { message }");
 #endif
                     }
                 }
