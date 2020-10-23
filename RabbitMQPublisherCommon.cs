@@ -7,12 +7,12 @@ namespace RabbitMQPublisherCommon
 {
     public class RabbitMQPublisherCommon
     {
-        #region private static readonly log4net.ILog _log4net
+        #region private static readonly log4net.ILog log4net
 #if !NET48
         /// <summary>
         /// Log4 Net Logger
         /// </summary>
-        private static readonly log4net.ILog _log4net = Log4netLogger.Log4netLogger.GetLog4netInstance(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log4net = Log4netLogger.Log4netLogger.GetLog4netInstance(MethodBase.GetCurrentMethod().DeclaringType);
 #endif
         #endregion
 
@@ -34,7 +34,7 @@ namespace RabbitMQPublisherCommon
             try
             {
 #if !NET48
-                _log4net.Info($"{ queueName }, { message }");
+                log4net.Info($"{ queueName }, { message }");
 #endif
                 IConnectionFactory rabbitConnectionFactory = new ConnectionFactory()
                 {
@@ -65,7 +65,7 @@ namespace RabbitMQPublisherCommon
                             basicProperties: null,
                             body);
 #if !NET48
-                        _log4net.Info($"Sent { queueName }, { message }");
+                        log4net.Info($"Sent { queueName }, { message }");
 #endif
                     }
                 }
@@ -73,7 +73,7 @@ namespace RabbitMQPublisherCommon
             catch (Exception e)
             {
 #if !NET48
-                _log4net.Error(string.Format("{0}, {1}.", e.Message, e.StackTrace), e);
+                log4net.Error(string.Format("{0}, {1}.", e.Message, e.StackTrace), e);
 #endif
             }
         }
