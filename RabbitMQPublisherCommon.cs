@@ -70,12 +70,19 @@ namespace RabbitMQPublisherCommon
                     }
                 }
             }
+#if !NET48
             catch (Exception e)
             {
-#if !NET48
-                log4net.Error(string.Format("{0}, {1}.", e.Message, e.StackTrace), e);
-#endif
+
+                log4net.Error(string.Format("\n{0}\n{1}\n{2}\n{3}\n", e.GetType(), e.InnerException?.GetType(), e.Message, e.StackTrace), e);
             }
+#else
+            catch (Exception e)
+            {
+
+                Console.WriteLine(string.Format("\n{0}\n{1}\n{2}\n{3}\n", e.GetType(), e.InnerException?.GetType(), e.Message, e.StackTrace), e);
+            }
+#endif
         }
         #endregion
     }
