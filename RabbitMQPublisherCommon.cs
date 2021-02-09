@@ -1,7 +1,7 @@
-﻿using RabbitMQ.Client;
 using System;
 using System.Reflection;
 using System.Text;
+using RabbitMQ.Client;
 
 namespace RabbitMQPublisherCommon
 {
@@ -12,7 +12,7 @@ namespace RabbitMQPublisherCommon
         /// <summary>
         /// Log4 Net Logger
         /// </summary>
-        private readonly log4net.ILog log4net = Log4netLogger.Log4netLogger.GetLog4netInstance(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog Log4net = Log4netLogger.Log4netLogger.GetLog4netInstance(MethodBase.GetCurrentMethod().DeclaringType);
 #endif
         #endregion
 
@@ -34,7 +34,7 @@ namespace RabbitMQPublisherCommon
             try
             {
 #if !NET48
-                log4net.Debug($"{ queueName }, { message }");
+                Log4net.Debug($"{ queueName }, { message }");
 #endif
                 IConnectionFactory rabbitConnectionFactory = new ConnectionFactory()
                 {
@@ -58,14 +58,14 @@ namespace RabbitMQPublisherCommon
                             exclusive: false,
                             autoDelete: false,
                             arguments: null);
-                        byte[] body = Encoding.UTF8.GetBytes(message);
+                        var body = Encoding.UTF8.GetBytes(message);
                         channel.BasicPublish(
                             exchange: string.Empty,
                             routingKey: queueName,
                             basicProperties: null,
                             body);
 #if !NET48
-                        log4net.Debug($"Sent { queueName }, { message }");
+                        Log4net.Debug($"Sent { queueName }, { message }");
 #endif
                     }
                 }
@@ -74,7 +74,7 @@ namespace RabbitMQPublisherCommon
             catch (Exception e)
             {
 
-                log4net.Error(string.Format("\n{0}\n{1}\n{2}\n{3}\n", e.GetType(), e.InnerException?.GetType(), e.Message, e.StackTrace), e);
+                Log4net.Error(string.Format("\n{0}\n{1}\n{2}\n{3}\n", e.GetType(), e.InnerException?.GetType(), e.Message, e.StackTrace), e);
             }
 #else
             catch (Exception e)
